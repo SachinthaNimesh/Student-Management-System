@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import { getCurrentDateTime } from '../utils/dateTimeUtils';
 import { Button, Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const Emotion = () => {
+const Feedback = () => {
     const navigation = useNavigation();
 
     return (
@@ -17,12 +17,12 @@ const Emotion = () => {
                 borderRadius: 18,
                 alignItems: 'center' 
             }}>
-                <Text style={styles.question} onPress={() => navigation.navigate('CheckOutScreen')}>How are you feeling Now?
+                <Text style={styles.question} onPress={() => {}}>How was your day at work?
                 </Text>
-                <TouchableOpacity style={styles.btn} onPress={() => {}}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
                     <View style={styles.btnContent}>
                         <Image 
-                            source={require('C:/worky/assets/happy.png')} 
+                            source={require('../assets/happy.png')} 
                             style={{ 
                                 width: 54, 
                                 height: 54, 
@@ -32,10 +32,10 @@ const Emotion = () => {
                         <Text style={styles.text}>Happy</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => {}}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
                     <View style={styles.btnContent}>
                         <Image 
-                            source={require('C:/worky/assets/neutral.png')} 
+                            source={require('../assets/neutral.png')} 
                             style={{ 
                                 width: 54, 
                                 height: 54, 
@@ -45,10 +45,10 @@ const Emotion = () => {
                         <Text style={styles.text}>Neutral</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => {}}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
                     <View style={styles.btnContent}>
                         <Image 
-                            source={require('C:/worky/assets/sad.png')} 
+                            source={require('../assets/sad.png')} 
                             style={{ 
                                 width: 54, 
                                 height: 54, 
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
     },
 }); 
 
-export default Emotion;
+export default Feedback;

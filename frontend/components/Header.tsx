@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, Text, View, ImageBackground, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Image } from 'expo-image';
-import { useFonts } from 'expo-font'; // Import useFonts hook
+import { useFonts } from 'expo-font'; 
+import { getCurrentDateTime } from '../utils/dateTimeUtils';
+import { getStudentById } from '../api/studentService';
+import { Student } from '../types/student';
 
 const ProfilePicture = require('../assets/user.jpg');
 const PlaceholderImage = require('../assets/bg2.jpg');
@@ -13,9 +16,23 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ children, getCurrentDateTime }) => {
+  const [student, setStudent] = React.useState<Student | null>(null);
   const [fontsLoaded] = useFonts({
-    Montserrat: require('C:/worky/assets/fonts/Montserrat-SemiBold.ttf'), // Load custom font
+    Montserrat: require('../assets/fonts/Montserrat-SemiBold.ttf'), // Load custom font
   });
+
+  useEffect(() => {
+    const fetchStudent = async () => {
+      try {
+        const student = await getStudentById(1);
+        setStudent(student);
+      } catch (error) {
+        console.error('Failed to fetch student:', error);
+      }
+    };
+
+    fetchStudent();
+  }, []);
 
   if (!fontsLoaded) {
     return null; // Render nothing until the font is loaded
@@ -26,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ children, getCurrentDateTime }) => {
       <StatusBar style="auto" />
       <ImageBackground source={PlaceholderImage} style={styles.backgroundImage}>
         <View style={styles.container}>
-          <Text style={styles.text}>Hi, John 👋</Text>
+          <Text style={styles.text}>Hi, {student ? student.first_name : 'Loading...'} 👋</Text>
           <Text style={styles.date_time}>{getCurrentDateTime()}</Text>
           <Image source={ProfilePicture} style={styles.profilePicture} />
           {children}

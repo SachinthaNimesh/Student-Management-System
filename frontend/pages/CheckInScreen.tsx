@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { getCurrentDateTime } from '../utils/dateTimeUtils';
+import * as Location from 'expo-location';
+import { postCheckinById } from '../api/attendanceService';
 
 type CheckInScreenProps = {
   navigation: StackNavigationProp<any, any>;
@@ -16,6 +18,29 @@ const CheckInScreen = ({ navigation, time, period, day, month, location }: Check
   // Use the getCurrentDateTime function if needed
   const dateTimeString = getCurrentDateTime();
 
+  const handleCheckIn = async () => {
+    try {
+      // Request location permissions
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission to access location was denied');
+        return;
+      }
+
+      // Get the current location
+      let location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+
+      // Send check-in data to the backend
+      await postCheckinById(latitude, longitude, true);
+
+      Alert.alert('Check-in successful');
+      navigation.navigate('WelcomeGreeting');
+    } catch (error) {
+      Alert.alert('An error occurred during check-in');
+    }
+  };
+
   return (
     <View style={styles.checkInFrame}>
       <Text style={styles.checkInText}>Check in</Text>
@@ -25,9 +50,7 @@ const CheckInScreen = ({ navigation, time, period, day, month, location }: Check
 
       <TouchableOpacity 
         style={styles.btn} 
-        onPress={() => {
-          navigation.navigate('WelcomeGreeting'); 
-        }}>
+        onPress={handleCheckIn}>
         <Text style={styles.btnText}>Check in</Text>
       </TouchableOpacity>
     </View>

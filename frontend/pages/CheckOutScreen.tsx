@@ -9,7 +9,7 @@ const CheckOutScreen: React.FC = () => {
     return (
         <Header getCurrentDateTime={getCurrentDateTime}>
             <View style={styles.flexBox}>
-                <Image source={require("C:/worky/assets/checkout.png")} style={styles.image}/>
+                <Image source={require("../assets/checkout.png")} style={styles.image}/>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Feedback')}>
                     <Text style={styles.text}>Check Out</Text>
                 </TouchableOpacity>

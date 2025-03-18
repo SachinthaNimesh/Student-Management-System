@@ -24,8 +24,11 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "fonts": {
+      "Poppins-SemiBold": "./assets/fonts/Poppins-SemiBold.ttf"
+    }
   }
 }

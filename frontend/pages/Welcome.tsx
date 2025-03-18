@@ -10,7 +10,7 @@ const Welcome = ({ navigation }) => {
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
-        'Lobster-regular': require('C:/worky/assets/fonts/Lobster-Regular.ttf'),
+        'Lobster-regular': require('../assets/fonts/Lobster-Regular.ttf'),
       });
       setFontsLoaded(true);
     };

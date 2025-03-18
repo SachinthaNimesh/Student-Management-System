@@ -8,62 +8,52 @@ const Feedback = () => {
     const navigation = useNavigation();
 
     return (
-        <Header getCurrentDateTime={getCurrentDateTime}>
-            <View style={{ 
-                padding: 10, 
-                backgroundColor: 'rgba(255, 255, 255, 0.6)', 
-                width: 360, 
-                height: 512, 
-                borderRadius: 18,
-                alignItems: 'center' 
-            }}>
-                <Text style={styles.question} onPress={() => {}}>How was your day at work?
-                </Text>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
-                    <View style={styles.btnContent}>
-                        <Image 
-                            source={require('C:/worky/assets/happy.png')} 
-                            style={{ 
-                                width: 54, 
-                                height: 54, 
-                                borderColor: '#000' 
-                            }} 
-                        />
-                        <Text style={styles.text}>Happy</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
-                    <View style={styles.btnContent}>
-                        <Image 
-                            source={require('C:/worky/assets/neutral.png')} 
-                            style={{ 
-                                width: 54, 
-                                height: 54, 
-                                borderColor: '#000' 
-                            }} 
-                        />
-                        <Text style={styles.text}>Neutral</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
-                    <View style={styles.btnContent}>
-                        <Image 
-                            source={require('C:/worky/assets/sad.png')} 
-                            style={{ 
-                                width: 54, 
-                                height: 54, 
-                                borderColor: '#000' 
-                            }} 
-                        />
-                        <Text style={styles.text}>Sad      </Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-        </Header>
+        <SafeAreaView>
+            <Header getCurrentDateTime={getCurrentDateTime}>
+                <View style={styles.container}>
+                    <Text style={styles.question}>How was your day at work?</Text>
+                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
+                        <View style={styles.btnContent}>
+                            <Image 
+                                source={require('../assets/happy.png')} 
+                                style={styles.image} 
+                            />
+                            <Text style={styles.text}>Happy</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
+                        <View style={styles.btnContent}>
+                            <Image 
+                                source={require('../assets/neutral.png')} 
+                                style={styles.image} 
+                            />
+                            <Text style={styles.text}>Neutral</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
+                        <View style={styles.btnContent}>
+                            <Image 
+                                source={require('../assets/sad.png')} 
+                                style={styles.image} 
+                            />
+                            <Text style={styles.text}>Sad</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </Header>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        padding: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        width: 360,
+        height: 512,
+        borderRadius: 18,
+        alignItems: 'center',
+    },
     btn: {
         padding: 10,
         margin: 10,
@@ -80,24 +70,29 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
     },
-    text:{
+    text: {
         fontSize: 30,
         fontFamily: 'Poppins-SemiBold',
         textAlign: 'center',
     },
-    btnContent:{
+    btnContent: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 30,
         gap: 20,
     },
-    question:{
+    question: {
         color: '#000',
         fontSize: 30,
         fontFamily: 'Poppins-SemiBold',
         textAlign: 'left',
     },
-}); 
+    image: {
+        width: 54,
+        height: 54,
+        borderColor: '#000',
+    },
+});
 
 export default Feedback;
