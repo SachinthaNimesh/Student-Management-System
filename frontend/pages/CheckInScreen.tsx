@@ -1,3 +1,4 @@
+// replace hardcoded student id
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -32,9 +33,10 @@ const CheckInScreen = ({ navigation, time, period, day, month, location }: Check
       const { latitude, longitude } = location.coords;
 
       // Send check-in data to the backend
-      await postCheckinById(latitude, longitude, true);
+      const studentId = 1 //hard coded student id
+      await postCheckinById(studentId,latitude, longitude, true);
 
-      Alert.alert('Check-in successful');
+      Alert.alert('Check-in successful'); // remove this later
       navigation.navigate('WelcomeGreeting');
     } catch (error) {
       Alert.alert('An error occurred during check-in');

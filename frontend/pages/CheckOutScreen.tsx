@@ -1,16 +1,40 @@
 import React from 'react';
 import Header from '../components/Header';
-import {View, StyleSheet,Image,TouchableOpacity,Text} from 'react-native';
+import {View, StyleSheet,Image,TouchableOpacity,Text, Alert} from 'react-native';
+import * as Location from 'expo-location';
 import { getCurrentDateTime } from '../utils/dateTimeUtils';
 import { useNavigation } from '@react-navigation/native';
-
+import { postCheckoutById } from '../api/attendanceService';
 const CheckOutScreen: React.FC = () => {
+    const handleCheckOut = async () => {
+        try {
+          // Request location permissions
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            Alert.alert('Permission to access location was denied');
+            return;
+          }
+    
+          // Get the current location
+          let location = await Location.getCurrentPositionAsync({});
+          const { latitude, longitude } = location.coords;
+    
+          // Send check-out data to the backend
+          const studentId = 1 //hard coded student id
+          await postCheckoutById(studentId,latitude, longitude);
+    
+          navigation.navigate('Feedback');
+        } catch (error) {
+          Alert.alert('An error occurred during check-out');
+        }
+      };
+
     const navigation = useNavigation();
     return (
         <Header getCurrentDateTime={getCurrentDateTime}>
             <View style={styles.flexBox}>
                 <Image source={require("../assets/checkout.png")} style={styles.image}/>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Feedback')}>
+                <TouchableOpacity style={styles.btn} onPress={handleCheckOut}>
                     <Text style={styles.text}>Check Out</Text>
                 </TouchableOpacity>
             </View>

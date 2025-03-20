@@ -1,8 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
 import { Student } from '../types/student';
-import apiClient from './client';
+import { Platform } from 'react-native';
 
-const API_URL = 'http://10.0.2.2:8080'; //replace localhost with http://10.0.2.2:8080
+const API_URL = Platform.OS === 'android' 
+  ? 'http://10.0.2.2:8080'       // Android emulator special IP to reach host machine
+  : 'http://localhost:8080';     // iOS simulator or web
 
 export const getStudentById = async (id: number): Promise<Student | null> => {
     try {

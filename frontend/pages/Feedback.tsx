@@ -1,11 +1,24 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Header from '../components/Header';
 import { getCurrentDateTime } from '../utils/dateTimeUtils';
 import { Button, Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {sendMood} from '../api/moodService';
 
-const Feedback = () => {
-    const navigation = useNavigation();
+const Feedback = ({route}) => {
+        const navigation = useNavigation();
+        // Extract student_id from route params, or use a default if not provided
+        const student_id = route.params?.student_id || 1;
+    
+        const handleMoodPress = async (emotion: 'happy' | 'neutral' | 'sad', isDaily: boolean) => {
+            try {
+                // Pass student_id, emotion as a string, and isDaily as separate arguments
+                await sendMood(student_id, emotion, isDaily);
+                navigation.navigate('CheckOutGreeting');
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
     return (
         <Header getCurrentDateTime={getCurrentDateTime}>
@@ -19,7 +32,7 @@ const Feedback = () => {
             }}>
                 <Text style={styles.question} onPress={() => {}}>How was your day at work?
                 </Text>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
+                <TouchableOpacity style={styles.btn} onPress={() => handleMoodPress('happy', true)}>
                     <View style={styles.btnContent}>
                         <Image 
                             source={require('../assets/happy.png')} 
@@ -32,7 +45,7 @@ const Feedback = () => {
                         <Text style={styles.text}>Happy</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
+                <TouchableOpacity style={styles.btn} onPress={() => handleMoodPress('neutral', true)}>
                     <View style={styles.btnContent}>
                         <Image 
                             source={require('../assets/neutral.png')} 
@@ -45,7 +58,7 @@ const Feedback = () => {
                         <Text style={styles.text}>Neutral</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CheckOutGreeting')}>
+                <TouchableOpacity style={styles.btn} onPress={() => handleMoodPress('sad', true)}>
                     <View style={styles.btnContent}>
                         <Image 
                             source={require('../assets/sad.png')} 

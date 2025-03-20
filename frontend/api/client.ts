@@ -1,4 +1,4 @@
-import axios from 'axios';
+/*import axios from 'axios';
 import {config} from '../config/env';
 
 const apiClient = axios.create({
@@ -20,3 +20,4 @@ apiClient.interceptors.response.use(
     }
 );
 export default apiClient;
+*/
