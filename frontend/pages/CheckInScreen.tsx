@@ -36,7 +36,7 @@ const CheckInScreen = ({ navigation, time, period, day, month, location }: Check
       const studentId = 1 //hard coded student id
       await postCheckinById(studentId,latitude, longitude, true);
 
-      Alert.alert('Check-in successful'); // remove this later
+     
       navigation.navigate('WelcomeGreeting');
     } catch (error) {
       Alert.alert('An error occurred during check-in');

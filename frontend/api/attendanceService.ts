@@ -1,11 +1,13 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { Platform } from 'react-native';
 
-// Handle different environments properly
+// Handle different environments 
+/*
 const API_URL = Platform.OS === 'android' 
   ? 'http://10.0.2.2:8080'       // Android emulator special IP to reach host machine
   : 'http://localhost:8080';     // iOS simulator or web
-
+*/
+const API_URL ='https://87e89eab-95e5-4c0f-8192-7ee0196e1581-dev.e1-us-east-azure.choreoapis.dev/employee-mgmt-system/student-mgmt-server/v1.0';
 export const postCheckinById = async (id: number, latitude: number, longitude: number, checkIn: boolean): Promise<any> => {
     try {
         const requestData = {
