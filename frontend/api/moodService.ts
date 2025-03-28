@@ -1,11 +1,7 @@
 import { Platform } from "react-native";
 import { Mood } from "../types/mood";
+import { API_URL } from "../config/config";
 
-// const API_URL = Platform.OS === 'android' 
-//   ? 'http://10.0.2.2:8080/moods'       // Android emulator special IP to reach host machine
-//   : 'http://localhost:8080/moods';     // iOS simulator or web
-
-  const API_URL ='https://87e89eab-95e5-4c0f-8192-7ee0196e1581-dev.e1-us-east-azure.choreoapis.dev/employee-mgmt-system/student-mgmt-server/v1.0';
 export async function getMood(id: number): Promise<Mood> {
     const response = await fetch(`${API_URL}/moods/${id}`, {
         method: 'GET',

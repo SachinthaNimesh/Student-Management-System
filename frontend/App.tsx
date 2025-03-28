@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,6 +12,7 @@ import CheckOutGreeting from './pages/CheckOutGreeting';
 import CheckInScreen from './pages/CheckInScreen';
 import Feedback from './pages/Feedback';
 import { getCurrentDateTime } from './utils/dateTimeUtils'; // Import the function
+import { StatusBar } from 'expo-status-bar';
 
 const Stack = createStackNavigator();
 
@@ -38,9 +38,9 @@ const MainApp = ({ navigation }) => {
   const [time, period, day, month] = dateTimeString.split(' ');
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <>
       <Header getCurrentDateTime={getCurrentDateTime}>
-        <CheckInScreen 
+      <CheckInScreen 
           navigation={navigation} 
           time={time} 
           period={period} 
@@ -48,8 +48,8 @@ const MainApp = ({ navigation }) => {
           month={month} 
           location={location} 
         />
-      </Header>
-    </SafeAreaView>
+        </Header>
+    </>
   );
 };
 

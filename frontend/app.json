@@ -3,35 +3,22 @@
     "name": "worky",
     "slug": "worky",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
-    "fonts": {
-      "Poppins-SemiBold": "./assets/fonts/Poppins-SemiBold.ttf"
+    "extra": {
+      "eas": {
+        "projectId": "cb5c55ed-6b5f-45ab-972f-dea8588bb932"
+      }
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "developmentClient": {
+      "silentLaunch": false
+    },
+    "android": {
+      "package": "com.sachintha_wso2.worky"
+    }
   }
 }

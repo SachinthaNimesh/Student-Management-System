@@ -1,12 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { Student } from '../types/student';
-import { Platform } from 'react-native';
-
-// const API_URL = Platform.OS === 'android' 
-//   ? 'http://10.0.2.2:8080'       // Android emulator special IP to reach host machine
-//   : 'http://localhost:8080';     // iOS simulator or web
-
-const API_URL ='https://87e89eab-95e5-4c0f-8192-7ee0196e1581-dev.e1-us-east-azure.choreoapis.dev/employee-mgmt-system/student-mgmt-server/v1.0';
+import { API_URL } from '../config/config';
 
 export const getStudentById = async (id: number): Promise<Student | null> => {
     try {

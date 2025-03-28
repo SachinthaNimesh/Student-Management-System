@@ -16,4 +16,3 @@ export interface Student {
     home_long: string;
     home_lat: string;
 }
-//these fields as per the database
