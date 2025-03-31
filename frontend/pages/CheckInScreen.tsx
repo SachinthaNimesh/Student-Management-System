@@ -6,7 +6,6 @@ import {
   View,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
   Dimensions,
   ActivityIndicator,
 } from "react-native";
@@ -14,9 +13,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { getCurrentDateTime } from "../utils/dateTimeUtils";
 import * as Location from "expo-location";
 import { postCheckinById } from "../api/attendanceService";
-import { StatusBar } from "expo-status-bar";
-import RealTimeClock from "../components/RealTimeClock ";
 const screenWidth = Dimensions.get("window").width;
+import { useEffect } from "react";
 
 type CheckInScreenProps = {
   navigation: StackNavigationProp<any, any>;
@@ -29,15 +27,49 @@ type CheckInScreenProps = {
 
 const CheckInScreen = ({
   navigation,
-  time,
-  period,
-  day,
-  month,
   location,
 }: CheckInScreenProps) => {
   // Use the getCurrentDateTime function if needed
   const dateTimeString = getCurrentDateTime();
   const [loading, setLoading] = useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState({
+    time: "",
+    period: "",
+    day: "",
+    month: "",
+  });
+  
+  const updateDateTime=()=>{
+    const now = new Date();
+
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2,'0');
+
+    const period = hours >= 12 ? "PM" : "AM";
+    hours = hours ? hours:12;
+
+    const day = now.getDate();
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    
+      const month = monthNames[now.getMonth()];setCurrentDateTime({
+      time: `${hours}:${minutes}`,
+      period,
+      day: day.toString(),
+      month,
+    });
+  };
+
+  useEffect(() => {
+    // Initial update
+    updateDateTime();
+    
+    // Set interval to update every second
+    const intervalId = setInterval(updateDateTime, 1000);
+    
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
   const handleCheckIn = async () => {
     try {
@@ -69,10 +101,10 @@ const CheckInScreen = ({
     <View style={styles.checkInFrame}>
       <Text style={styles.checkInText}>Check-in</Text>
       <Text style={styles.infoText}>
-        🕑 {time} {period}
+        🕑 {currentDateTime.time} {currentDateTime.period}
       </Text>
       <Text style={styles.infoText}>
-        📆 {day} {month}
+        📆 {currentDateTime.day} {currentDateTime.month}
       </Text>
       <Text style={styles.infoText}>
         📍 {location || "Fetching location..."}

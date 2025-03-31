@@ -19,6 +19,12 @@
     },
     "android": {
       "package": "com.sachintha_wso2.worky"
+    },
+    "ios": {
+      "bundleIdentifier": "org.sjdsf.worky",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     }
   }
 }

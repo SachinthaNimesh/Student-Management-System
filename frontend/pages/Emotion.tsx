@@ -3,21 +3,25 @@ import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import { getCurrentDateTime } from "../utils/dateTimeUtils";
 import {
-  Button,
   Text,
   View,
-  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   Image,
-  Platform,
   Dimensions,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { sendMood } from "../api/moodService";
+import { useState } from "react";
+import * as Location from "expo-location";
+import { postCheckoutById } from "../api/attendanceService";
 
 const screenWidth = Dimensions.get("window").width;
 
 const Emotion = ({ route }) => {
+  const [loading, setLoading] = useState(false);
+
   const navigation = useNavigation();
   // Extract student_id from route params, or use a default if not provided
   const student_id = route.params?.student_id || 1;
@@ -29,12 +33,36 @@ const Emotion = ({ route }) => {
     try {
       // Pass student_id, emotion as a string, and isDaily as separate arguments
       await sendMood(student_id, emotion, isDaily);
-      navigation.navigate("CheckOutScreen");
     } catch (error) {
       console.error(error);
     }
   };
-  // ### remove text based navigation
+  const handleCheckOut = async () => {
+      try {
+        setLoading(true);
+        // Request location permissions
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          Alert.alert("Permission to access location was denied");
+          return;
+        }
+  
+        // Get the current location
+        let location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
+  
+        // Send check-out data to the backend
+        const studentId = 1; //hard coded student id
+        await postCheckoutById(studentId, latitude, longitude);
+  
+        navigation.navigate("Feedback");
+      } catch (error) {
+        Alert.alert("An error occurred during check-out");
+      } finally {
+        setLoading(false);
+      }
+    };
+
   return (
     <>
       <Header getCurrentDateTime={getCurrentDateTime}>
@@ -134,18 +162,23 @@ const Emotion = ({ route }) => {
               justifyContent: "center",
               alignItems: "center",
             }}
-            onPress={() => navigation.navigate("Feedback")}
+            onPress={handleCheckOut}
+            disabled={loading}
           >
-            <Text
-              style={{
-                fontSize: 18.63,
-                color: "#000",
-                textAlign: "center",
-                fontFamily: "Poppins-SemiBold",
-              }}
-            >
-              Early Checkout
-            </Text>
+            {loading ? (
+              <ActivityIndicator size={"small"} color={"#000"} />
+            ) : (
+              <Text
+                style={{
+                  fontSize: 18.63,
+                  color: "#000",
+                  textAlign: "center",
+                  fontFamily: "Poppins-SemiBold",
+                }}
+              >
+                Early Checkout
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </Header>
